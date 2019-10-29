@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>bin</groupId>
+  <artifactId>GameDataEdit</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>bin</groupId>
+      <artifactId>BaseMod</artifactId>
+      <scope>system</scope>
+      <version>1.0</version>
+      <systemPath>${project.basedir}/src/lib/BaseMod.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>bin</groupId>
+      <artifactId>Game</artifactId>
+      <scope>system</scope>
+      <version>1.0</version>
+      <systemPath>${project.basedir}/src/lib/desktop-1.0.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>bin</groupId>
+      <artifactId>ModTheSpire</artifactId>
+      <scope>system</scope>
+      <version>1.0</version>
+      <systemPath>${project.basedir}/src/lib/ModTheSpire.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <target>8</target>
+          <source>8</source>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

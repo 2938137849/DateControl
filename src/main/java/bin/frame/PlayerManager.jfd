@@ -1,0 +1,520 @@
+JFDML JFormDesigner: "7.0.0.6.255" Java: "11.0.2" encoding: "UTF-8"
+
+new FormModel {
+	"i18n.autoExternalize": true
+	"i18n.bundleName": "language"
+	"i18n.keyPrefix": "ShowPlayer"
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0, 0"
+			"$rowSpecs": "100, 173"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignTop": true
+			"$alignLeft": true
+		} ) {
+			name: "this"
+			"title": new FormMessage( null, "PlayerMgr" )
+			"resizable": false
+			"alwaysOnTop": true
+			"$locationPolicy": 1
+			"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0, 45, 0"
+				"$rowSpecs": "0, 0, 0, 0, 0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "panel1"
+				"name": new FormMessage( null, "PlayerMgr" )
+				"border": new javax.swing.border.TitledBorder( "i18nKey=PlayerMgr" )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": new FormMessage( null, "HP" )
+					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "spinnerHp"
+					"font": &Font0 new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"model": new javax.swing.SpinnerNumberModel {
+						minimum: 0
+					}
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinnerHpStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "lockHp"
+					"text": new FormMessage( null, "Locking" )
+					"horizontalAlignment": 0
+					"font": &Font1 new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "lockHpItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": new FormMessage( null, "MaxHP" )
+					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 1
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "spinnerMaxHp"
+					"font": #Font0
+					"model": new javax.swing.SpinnerNumberModel {
+						minimum: 0
+					}
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinnerMaxHpStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 1
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "lockMaxHp"
+					"text": new FormMessage( null, "Locking" )
+					"horizontalAlignment": 0
+					"font": #Font1
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "lockMaxHpItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 1
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label3"
+					"text": new FormMessage( null, "MP" )
+					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 2
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "spinnerMp"
+					"font": #Font0
+					"model": new javax.swing.SpinnerNumberModel( 0, -999, 999, 1 )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinnerMpStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 2
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "lockMp"
+					"text": new FormMessage( null, "Locking" )
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "lockMpItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 2
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": new FormMessage( null, "MaxMP" )
+					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 3
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "spinnerMaxMp"
+					"font": #Font0
+					"model": new javax.swing.SpinnerNumberModel( 0, -999, 999, 1 )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinnerMaxMpStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 3
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "lockMaxMp"
+					"text": new FormMessage( null, "Locking" )
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "lockMaxMpItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 3
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label5"
+					"text": new FormMessage( null, "Gold" )
+					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 4
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "spinnerGold"
+					"font": #Font0
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "spinnerGoldStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 4
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "lockGold"
+					"text": new FormMessage( null, "Locking" )
+					"horizontalAlignment": 0
+					"font": #Font1
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "lockGold"
+					}
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "LockGoldItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 4
+					"hAlign": 0
+					"vAlign": 0
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"insets": new java.awt.Insets( 5, 5, 5, 5 )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0, 0"
+				"$rowSpecs": "0, 0, 0, 0, 0, 0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignLeft": true
+				"$alignTop": true
+			} ) {
+				name: "panel3"
+				"border": new javax.swing.border.TitledBorder( "i18nKey=EXEvent" )
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "EXDamage"
+					"text": new FormMessage( null, "EXDamage" )
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "EXDamageItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "spinnerDamage"
+					"font": &Font2 new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"model": new javax.swing.SpinnerNumberModel( 0, -999, 999, 1 )
+					"enabled": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "EXBlock"
+					"text": new FormMessage( null, "EXBlock" )
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "EXBlockItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 1
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "spinnerBlock"
+					"font": #Font2
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"model": new javax.swing.SpinnerNumberModel( 0, -999, 999, 1 )
+					"enabled": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 1
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "checkBoxUpgrade"
+					"text": new FormMessage( null, "Upgrade" )
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "checkBoxUpgradeItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 2
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"insets": new java.awt.Insets( 5, 5, 5, 5 )
+			} )
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "tabbedPane1"
+				"tabLayoutPolicy": 1
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"maximumSize": new java.awt.Dimension( 0, 173 )
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tabbedPane1StateChanged", true ) )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane1"
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "tableCards"
+						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+						}, new java.util.Vector {
+							add( "i" )
+							add( "ID" )
+							add( "Name" )
+							add( "Cost" )
+						}, new java.util.Vector {
+							add( class java.lang.Integer )
+							add( class java.lang.String )
+							add( class java.lang.String )
+							add( class java.lang.Integer )
+						}, new java.util.Vector {
+							add( false )
+							add( false )
+							add( false )
+							add( true )
+						}, new java.util.Vector {
+							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, false ) )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						"dropMode": enum javax.swing.DropMode INSERT_ROWS
+						"preferredScrollableViewportSize": new java.awt.Dimension( 0, 0 )
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "CardMgr" )
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane3"
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "tableRelics"
+						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+						}, new java.util.Vector {
+							add( "i" )
+							add( "ID" )
+							add( "Name" )
+							add( "Description" )
+						}, new java.util.Vector {
+							add( class java.lang.Integer )
+							add( class java.lang.String )
+							add( class java.lang.String )
+							add( class java.lang.String )
+						}, new java.util.Vector {
+							add( false )
+							add( false )
+							add( false )
+							add( false )
+						}, new java.util.Vector {
+							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, false ) )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						"preferredScrollableViewportSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "RelicMgr" )
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane2"
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "tablePotions"
+						"dropMode": enum javax.swing.DropMode INSERT_ROWS
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredScrollableViewportSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+							} )
+						}, new java.util.Vector {
+							add( "i" )
+							add( "ID" )
+							add( "Name" )
+						}, new java.util.Vector {
+							add( class java.lang.Integer )
+							add( class java.lang.String )
+							add( class java.lang.String )
+						}, new java.util.Vector {
+							add( false )
+							add( false )
+							add( false )
+						}, new java.util.Vector {
+							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, false ) )
+							add( null )
+							add( null )
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "PotionMgr" )
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane4"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "tableHandCrads"
+						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+						}, new java.util.Vector {
+							add( "i" )
+							add( "ID" )
+							add( "Name" )
+							add( "Cost" )
+						}, new java.util.Vector {
+							add( class java.lang.Integer )
+							add( class java.lang.String )
+							add( class java.lang.String )
+							add( class java.lang.Integer )
+						}, new java.util.Vector {
+							add( null )
+							add( false )
+							add( false )
+							add( null )
+						}, new java.util.Vector {
+							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, true ) )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						"preferredScrollableViewportSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": new FormMessage( null, "HandCardMgr" )
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
+				"gridwidth": 2
+				"insets": new java.awt.Insets( 5, 5, 5, 5 )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 700, 515 )
+		} )
+	}
+}
