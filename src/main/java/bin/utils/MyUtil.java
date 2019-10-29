@@ -25,21 +25,26 @@ public final class MyUtil {
     }
   }
 
-  public static void TableModelListener(TableModelEvent e, ArrayList<AbstractCard> group, CardType type) {
+  public static void TableModelListener(TableModelEvent e, ArrayList<AbstractCard> group) {
     if (e.getType() == TableModelEvent.UPDATE) {
       int row = e.getFirstRow();
       DefaultTableModel table = (DefaultTableModel)e.getSource();
       Integer i = (Integer)table.getValueAt(row, 0);
       AbstractCard card = group.get(i);
-      Integer value = (Integer)table.getValueAt(row, e.getColumn());
-      switch (type) {
-        case COST:
-          if (value != null) {
-            card.cost = value;
-            card.costForTurn = value;
-          }
+      int column = e.getColumn();
+      Object value = table.getValueAt(row, column);
+      if (value == null) return;
+      switch (column) {
+        case CardType.COST:
+          card.cost = (int)value;
+          card.costForTurn = (int)value;
           break;
-        case DAMAGE:
+        case CardType.ID:
+//          if (BaseMod.underScoreCardIDs.containsKey((String)value)) {
+//
+//          }
+//          group.remove(row);
+//          group.add();
           break;
       }
     }
@@ -53,8 +58,10 @@ public final class MyUtil {
     BaseMod.unsubscribe(cub, c);
   }
 
-  public enum CardType {
-    DAMAGE,
-    COST
+  public static class CardType {
+    public static final byte ID = 1;
+    public static final byte NAME = 2;
+    public static final byte COST = 3;
+
   }
 }
