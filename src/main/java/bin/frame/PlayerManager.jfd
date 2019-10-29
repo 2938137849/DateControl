@@ -305,6 +305,9 @@ new FormModel {
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"maximumSize": new java.awt.Dimension( 0, 173 )
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				auxiliary() {
+					"JavaCodeGenerator.variableLocal": true
+				}
 				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tabbedPane1StateChanged", true ) )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "scrollPane1"
@@ -466,6 +469,9 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "scrollPane4"
+					auxiliary() {
+						"JavaCodeGenerator.variableLocal": true
+					}
 					add( new FormComponent( "javax.swing.JTable" ) {
 						name: "tableHandCrads"
 						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
@@ -492,12 +498,12 @@ new FormModel {
 							add( class java.lang.String )
 							add( class java.lang.Integer )
 						}, new java.util.Vector {
-							add( null )
+							add( false )
 							add( false )
 							add( false )
 							add( null )
 						}, new java.util.Vector {
-							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, true ) )
+							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, false ) )
 							add( null )
 							add( null )
 							add( null )
@@ -514,7 +520,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 700, 515 )
+			"size": new java.awt.Dimension( 460, 610 )
 		} )
 	}
 }
