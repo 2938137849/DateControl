@@ -22,7 +22,6 @@ public class Open {
   private static final Logger logger = LogManager.getLogger(Open.class.getName());
   private PlayerManager manager;
 
-
   private Open() {
     manager = new PlayerManager();
     MyUtil.subscribe(this::receiveStartGame, StartGameSubscriber.class);
