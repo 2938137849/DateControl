@@ -3,6 +3,7 @@ package bin.utils;
 import basemod.BaseMod;
 import basemod.interfaces.ISubscriber;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
@@ -26,28 +27,30 @@ public final class MyUtil {
   }
 
   public static void TableModelListener(TableModelEvent e, ArrayList<AbstractCard> group) {
-    if (e.getType() == TableModelEvent.UPDATE) {
-      int row = e.getFirstRow();
-      DefaultTableModel table = (DefaultTableModel)e.getSource();
-      Integer i = (Integer)table.getValueAt(row, 0);
-      AbstractCard card = group.get(i);
-      int column = e.getColumn();
-      Object value = table.getValueAt(row, column);
-      if (value == null) return;
-      switch (column) {
-        case CardType.COST:
-          card.cost = (int)value;
-          card.costForTurn = (int)value;
-          break;
-        case CardType.ID:
-//          if (BaseMod.underScoreCardIDs.containsKey((String)value)) {
-//
-//          }
-//          group.remove(row);
-//          group.add();
-          break;
-      }
+    if (e.getType() != TableModelEvent.UPDATE) return;
+    int row = e.getFirstRow();
+    DefaultTableModel table = (DefaultTableModel)e.getSource();
+    Integer i = (Integer)table.getValueAt(row, 0);
+    AbstractCard card = group.get(i);
+    if (card == null) return;
+    int column = e.getColumn();
+    Object value = table.getValueAt(row, column);
+    if (value == null) return;
+    switch (column) {
+      case CardType.COST:
+        card.cost = (int)value;
+        card.costForTurn = (int)value;
+        break;
+      case CardType.ID:
+        if (CardLibrary.cards.containsKey((String)value)) {
+          group.set(row, CardLibrary.getCopy((String)value));
+        }
+        break;
+      case CardType.NAME:
+        card.name = ((String)value);
+        break;
     }
+
   }
 
   public static <T extends ISubscriber> void subscribe(T cub, Class<T> c) {

@@ -300,7 +300,7 @@ new FormModel {
 				"insets": new java.awt.Insets( 5, 5, 5, 5 )
 			} )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
-				name: "tabbedPane1"
+				name: "tabbedPaneMgr"
 				"tabLayoutPolicy": 1
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"maximumSize": new java.awt.Dimension( 0, 173 )
@@ -308,7 +308,8 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableLocal": true
 				}
-				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tabbedPane1StateChanged", true ) )
+				addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "tabbedPaneMgrFocusGained", true ) )
+				addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "tabbedPaneMgrStateChanged", true ) )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "scrollPane1"
 					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -372,8 +373,8 @@ new FormModel {
 							add( class java.lang.Integer )
 						}, new java.util.Vector {
 							add( false )
-							add( false )
-							add( false )
+							add( true )
+							add( true )
 							add( true )
 						}, new java.util.Vector {
 							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, false ) )
@@ -387,6 +388,7 @@ new FormModel {
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "CardMgr" )
+					"mnemonicIndex": new FormMessage( null, "ShowPlayer.scrollPane1.tab.mnemonicIndex" )
 				} )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "scrollPane3"
@@ -499,8 +501,8 @@ new FormModel {
 							add( class java.lang.Integer )
 						}, new java.util.Vector {
 							add( false )
-							add( false )
-							add( false )
+							add( true )
+							add( true )
 							add( null )
 						}, new java.util.Vector {
 							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, false ) )

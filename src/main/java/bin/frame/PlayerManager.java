@@ -4,7 +4,6 @@
 
 package bin.frame;
 
-import basemod.BaseMod;
 import basemod.interfaces.OnCardUseSubscriber;
 import basemod.interfaces.PostDrawSubscriber;
 import basemod.interfaces.PostPlayerUpdateSubscriber;
@@ -23,9 +22,12 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -38,7 +40,7 @@ public class PlayerManager extends JFrame {
   private static final Logger logger = LogManager.getLogger(PlayerManager.class.getName());
 
   private final PostPlayerUpdateSubscriber Hp;
-  private MaxHPChangeSubscriber MaxHp;
+  private final MaxHPChangeSubscriber MaxHp;
   private final PostPlayerUpdateSubscriber Mp;
   private final PostPlayerUpdateSubscriber MaxMp;
   private final PostPlayerUpdateSubscriber Gold;
@@ -160,21 +162,25 @@ public class PlayerManager extends JFrame {
 
   public PlayerManager() {
     initComponents();
-    tableCards.getModel().addTableModelListener(e ->
-       MyUtil.TableModelListener(
-          e,
-          AbstractDungeon.player.masterDeck.group
-       )
+    tableCards.getModel().addTableModelListener(e -> {
+         if (e.getType() != TableModelEvent.UPDATE) return;
+         MyUtil.TableModelListener(
+            e,
+            AbstractDungeon.player.masterDeck.group
+         );
+         flashTable(0);
+       }
     );
-    tableHandCrads.getModel().addTableModelListener(e ->
-       MyUtil.TableModelListener(
-          e,
-          AbstractDungeon.player.hand.group
-       )
+    tableHandCrads.getModel().addTableModelListener(e -> {
+         if (e.getType() != TableModelEvent.UPDATE) return;
+         MyUtil.TableModelListener(
+            e,
+            AbstractDungeon.player.hand.group
+         );
+         flashTable(3);
+       }
     );
-    tableCards.getColumn(1).setCellEditor(new DefaultCellEditor(
-       new JComboBox<>(new DefaultComboBoxModel<>(
-          (String[])BaseMod.underScoreCardIDs.keySet().toArray()))));
+
     /*tablePotions.getModel().addTableModelListener(e -> {
       if (e.getType() == TableModelEvent.UPDATE) {
         System.out.println("e.getColumn() = " + e.getColumn());
@@ -313,7 +319,7 @@ public class PlayerManager extends JFrame {
     }
   }
 
-  private void tabbedPane1StateChanged(ChangeEvent e) {
+  private void tabbedPaneMgrStateChanged(ChangeEvent e) {
     if (this.player == null) return;
     int currentTable = ((JTabbedPane)e.getSource()).getSelectedIndex();
     flashTable(currentTable);
@@ -343,6 +349,12 @@ public class PlayerManager extends JFrame {
     }
   }
 
+  private void tabbedPaneMgrFocusGained(FocusEvent e) {
+    if (this.player == null) return;
+    int currentTable = ((JTabbedPane)e.getSource()).getSelectedIndex();
+    flashTable(currentTable);
+  }
+
   private void initComponents() {
     // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
     ResourceBundle bundle = ResourceBundle.getBundle("language");
@@ -368,7 +380,7 @@ public class PlayerManager extends JFrame {
     this.EXBlock = new JCheckBox();
     this.spinnerBlock = new JSpinner();
     this.checkBoxUpgrade = new JCheckBox();
-    JTabbedPane tabbedPane1 = new JTabbedPane();
+    JTabbedPane tabbedPaneMgr = new JTabbedPane();
     JScrollPane scrollPane1 = new JScrollPane();
     this.tableCards = new JTable();
     JScrollPane scrollPane3 = new JScrollPane();
@@ -385,27 +397,28 @@ public class PlayerManager extends JFrame {
     setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
     Container contentPane = getContentPane();
     contentPane.setLayout(new GridBagLayout());
-    ((GridBagLayout)contentPane.getLayout()).columnWidths = new int[] {0, 0, 0};
-    ((GridBagLayout)contentPane.getLayout()).rowHeights = new int[] {105, 173, 0};
-    ((GridBagLayout)contentPane.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-    ((GridBagLayout)contentPane.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+    ((GridBagLayout)contentPane.getLayout()).columnWidths = new int[]{0, 0, 0};
+    ((GridBagLayout)contentPane.getLayout()).rowHeights = new int[]{105, 173, 0};
+    ((GridBagLayout)contentPane.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
+    ((GridBagLayout)contentPane.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
     //======== panel1 ========
     {
       panel1.setName(bundle.getString("PlayerMgr"));
       panel1.setBorder(new TitledBorder(bundle.getString("PlayerMgr")));
       panel1.setLayout(new GridBagLayout());
-      ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {0, 50, 0, 0};
-      ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
-      ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-      ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+      ((GridBagLayout)panel1.getLayout()).columnWidths = new int[]{0, 50, 0, 0};
+      ((GridBagLayout)panel1.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+      ((GridBagLayout)panel1.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
+      ((GridBagLayout)panel1.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
       //---- label1 ----
       label1.setText(bundle.getString("HP"));
       label1.setHorizontalAlignment(SwingConstants.CENTER);
       panel1.add(label1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- spinnerHp ----
       this.spinnerHp.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
@@ -413,8 +426,9 @@ public class PlayerManager extends JFrame {
       this.spinnerHp.setBorder(null);
       this.spinnerHp.addChangeListener(e -> spinnerHpStateChanged(e));
       panel1.add(this.spinnerHp, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- lockHp ----
       this.lockHp.setText(bundle.getString("Locking"));
@@ -424,15 +438,17 @@ public class PlayerManager extends JFrame {
       this.lockHp.setMargin(new Insets(5, 5, 5, 5));
       this.lockHp.addItemListener(e -> lockHpItemStateChanged(e));
       panel1.add(this.lockHp, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 10, 5), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 10, 5), 0, 0
+      ));
 
       //---- label2 ----
       label2.setText(bundle.getString("MaxHP"));
       label2.setHorizontalAlignment(SwingConstants.CENTER);
       panel1.add(label2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- spinnerMaxHp ----
       this.spinnerMaxHp.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
@@ -440,8 +456,9 @@ public class PlayerManager extends JFrame {
       this.spinnerMaxHp.setBorder(null);
       this.spinnerMaxHp.addChangeListener(e -> spinnerMaxHpStateChanged(e));
       panel1.add(this.spinnerMaxHp, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- lockMaxHp ----
       this.lockMaxHp.setText(bundle.getString("Locking"));
@@ -451,15 +468,17 @@ public class PlayerManager extends JFrame {
       this.lockMaxHp.setMargin(new Insets(5, 5, 5, 5));
       this.lockMaxHp.addItemListener(e -> lockMaxHpItemStateChanged(e));
       panel1.add(this.lockMaxHp, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 10, 5), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 10, 5), 0, 0
+      ));
 
       //---- label3 ----
       label3.setText(bundle.getString("MP"));
       label3.setHorizontalAlignment(SwingConstants.CENTER);
       panel1.add(label3, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- spinnerMp ----
       this.spinnerMp.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
@@ -467,8 +486,9 @@ public class PlayerManager extends JFrame {
       this.spinnerMp.setBorder(null);
       this.spinnerMp.addChangeListener(e -> spinnerMpStateChanged(e));
       panel1.add(this.spinnerMp, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- lockMp ----
       this.lockMp.setText(bundle.getString("Locking"));
@@ -477,15 +497,17 @@ public class PlayerManager extends JFrame {
       this.lockMp.setMargin(new Insets(5, 5, 5, 5));
       this.lockMp.addItemListener(e -> lockMpItemStateChanged(e));
       panel1.add(this.lockMp, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 5), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 5), 0, 0
+      ));
 
       //---- label4 ----
       label4.setText(bundle.getString("MaxMP"));
       label4.setHorizontalAlignment(SwingConstants.CENTER);
       panel1.add(label4, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- spinnerMaxMp ----
       this.spinnerMaxMp.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
@@ -493,8 +515,9 @@ public class PlayerManager extends JFrame {
       this.spinnerMaxMp.setBorder(null);
       this.spinnerMaxMp.addChangeListener(e -> spinnerMaxMpStateChanged(e));
       panel1.add(this.spinnerMaxMp, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- lockMaxMp ----
       this.lockMaxMp.setText(bundle.getString("Locking"));
@@ -503,23 +526,26 @@ public class PlayerManager extends JFrame {
       this.lockMaxMp.setMargin(new Insets(5, 5, 5, 5));
       this.lockMaxMp.addItemListener(e -> lockMaxMpItemStateChanged(e));
       panel1.add(this.lockMaxMp, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 5), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 5), 0, 0
+      ));
 
       //---- label5 ----
       label5.setText(bundle.getString("Gold"));
       label5.setHorizontalAlignment(SwingConstants.CENTER);
       panel1.add(label5, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 5, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 5, 10), 0, 0
+      ));
 
       //---- spinnerGold ----
       this.spinnerGold.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
       this.spinnerGold.setBorder(null);
       this.spinnerGold.addChangeListener(e -> spinnerGoldStateChanged(e));
       panel1.add(this.spinnerGold, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 5, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 5, 10), 0, 0
+      ));
 
       //---- lockGold ----
       this.lockGold.setText(bundle.getString("Locking"));
@@ -529,21 +555,23 @@ public class PlayerManager extends JFrame {
       this.lockGold.setMargin(new Insets(5, 5, 5, 5));
       this.lockGold.addItemListener(e -> LockGoldItemStateChanged(e));
       panel1.add(this.lockGold, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.NONE,
-        new Insets(5, 5, 5, 5), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+         new Insets(5, 5, 5, 5), 0, 0
+      ));
     }
     contentPane.add(panel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-      GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-      new Insets(5, 5, 10, 10), 0, 0));
+       GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+       new Insets(5, 5, 10, 10), 0, 0
+    ));
 
     //======== panel3 ========
     {
       panel3.setBorder(new TitledBorder(bundle.getString("EXEvent")));
       panel3.setLayout(new GridBagLayout());
-      ((GridBagLayout)panel3.getLayout()).columnWidths = new int[] {0, 0, 0};
-      ((GridBagLayout)panel3.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
-      ((GridBagLayout)panel3.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-      ((GridBagLayout)panel3.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+      ((GridBagLayout)panel3.getLayout()).columnWidths = new int[]{0, 0, 0};
+      ((GridBagLayout)panel3.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+      ((GridBagLayout)panel3.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
+      ((GridBagLayout)panel3.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
       //---- EXDamage ----
       this.EXDamage.setText(bundle.getString("EXDamage"));
@@ -552,8 +580,9 @@ public class PlayerManager extends JFrame {
       this.EXDamage.setMargin(new Insets(5, 5, 5, 5));
       this.EXDamage.addItemListener(e -> EXDamageItemStateChanged(e));
       panel3.add(this.EXDamage, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- spinnerDamage ----
       this.spinnerDamage.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
@@ -561,8 +590,9 @@ public class PlayerManager extends JFrame {
       this.spinnerDamage.setModel(new SpinnerNumberModel(0, -999, 999, 1));
       this.spinnerDamage.setEnabled(false);
       panel3.add(this.spinnerDamage, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 5), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 5), 0, 0
+      ));
 
       //---- EXBlock ----
       this.EXBlock.setText(bundle.getString("EXBlock"));
@@ -571,8 +601,9 @@ public class PlayerManager extends JFrame {
       this.EXBlock.setMargin(new Insets(5, 5, 5, 5));
       this.EXBlock.addItemListener(e -> EXBlockItemStateChanged(e));
       panel3.add(this.EXBlock, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
 
       //---- spinnerBlock ----
       this.spinnerBlock.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
@@ -580,8 +611,9 @@ public class PlayerManager extends JFrame {
       this.spinnerBlock.setModel(new SpinnerNumberModel(0, -999, 999, 1));
       this.spinnerBlock.setEnabled(false);
       panel3.add(this.spinnerBlock, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 5), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 5), 0, 0
+      ));
 
       //---- checkBoxUpgrade ----
       this.checkBoxUpgrade.setText(bundle.getString("Upgrade"));
@@ -590,20 +622,28 @@ public class PlayerManager extends JFrame {
       this.checkBoxUpgrade.setMargin(new Insets(5, 5, 5, 5));
       this.checkBoxUpgrade.addItemListener(e -> checkBoxUpgradeItemStateChanged(e));
       panel3.add(this.checkBoxUpgrade, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-        new Insets(5, 5, 10, 10), 0, 0));
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
     }
     contentPane.add(panel3, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-      GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-      new Insets(5, 5, 10, 5), 0, 0));
+       GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+       new Insets(5, 5, 10, 5), 0, 0
+    ));
 
-    //======== tabbedPane1 ========
+    //======== tabbedPaneMgr ========
     {
-      tabbedPane1.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-      tabbedPane1.setPreferredSize(null);
-      tabbedPane1.setMaximumSize(new Dimension(0, 173));
-      tabbedPane1.setMinimumSize(null);
-      tabbedPane1.addChangeListener(e -> tabbedPane1StateChanged(e));
+      tabbedPaneMgr.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+      tabbedPaneMgr.setPreferredSize(null);
+      tabbedPaneMgr.setMaximumSize(new Dimension(0, 173));
+      tabbedPaneMgr.setMinimumSize(null);
+      tabbedPaneMgr.addFocusListener(new FocusAdapter() {
+        @Override
+        public void focusGained(FocusEvent e) {
+          tabbedPaneMgrFocusGained(e);
+        }
+      });
+      tabbedPaneMgr.addChangeListener(e -> tabbedPaneMgrStateChanged(e));
 
       //======== scrollPane1 ========
       {
@@ -611,29 +651,31 @@ public class PlayerManager extends JFrame {
 
         //---- tableCards ----
         this.tableCards.setModel(new DefaultTableModel(
-          new Object[][] {
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-          },
-          new String[] {
-            "i", "ID", "Name", "Cost"
-          }
+           new Object[][]{
+              {null, null, null, null},
+              {null, null, null, null},
+              {null, null, null, null},
+              {null, null, null, null},
+              {null, null, null, null},
+              {null, null, null, null},
+              {null, null, null, null},
+           },
+           new String[]{
+              "i", "ID", "Name", "Cost"
+           }
         ) {
-          Class<?>[] columnTypes = new Class<?>[] {
-            Integer.class, String.class, String.class, Integer.class
+          Class<?>[] columnTypes = new Class<?>[]{
+             Integer.class, String.class, String.class, Integer.class
           };
-          boolean[] columnEditable = new boolean[] {
-            false, false, false, true
+          boolean[] columnEditable = new boolean[]{
+             false, true, true, true
           };
+
           @Override
           public Class<?> getColumnClass(int columnIndex) {
             return this.columnTypes[columnIndex];
           }
+
           @Override
           public boolean isCellEditable(int rowIndex, int columnIndex) {
             return this.columnEditable[columnIndex];
@@ -651,7 +693,9 @@ public class PlayerManager extends JFrame {
         this.tableCards.setPreferredSize(null);
         scrollPane1.setViewportView(this.tableCards);
       }
-      tabbedPane1.addTab(bundle.getString("CardMgr"), scrollPane1);
+      tabbedPaneMgr.addTab(bundle.getString("CardMgr"), scrollPane1);
+      tabbedPaneMgr.setDisplayedMnemonicIndexAt(
+         0, Integer.parseInt(bundle.getString("ShowPlayer.scrollPane1.tab.mnemonicIndex")));
 
       //======== scrollPane3 ========
       {
@@ -659,23 +703,25 @@ public class PlayerManager extends JFrame {
 
         //---- tableRelics ----
         this.tableRelics.setModel(new DefaultTableModel(
-          new Object[][] {
-            {null, null, null, null},
-          },
-          new String[] {
-            "i", "ID", "Name", "Description"
-          }
+           new Object[][]{
+              {null, null, null, null},
+           },
+           new String[]{
+              "i", "ID", "Name", "Description"
+           }
         ) {
-          Class<?>[] columnTypes = new Class<?>[] {
-            Integer.class, String.class, String.class, String.class
+          Class<?>[] columnTypes = new Class<?>[]{
+             Integer.class, String.class, String.class, String.class
           };
-          boolean[] columnEditable = new boolean[] {
-            false, false, false, false
+          boolean[] columnEditable = new boolean[]{
+             false, false, false, false
           };
+
           @Override
           public Class<?> getColumnClass(int columnIndex) {
             return this.columnTypes[columnIndex];
           }
+
           @Override
           public boolean isCellEditable(int rowIndex, int columnIndex) {
             return this.columnEditable[columnIndex];
@@ -691,7 +737,7 @@ public class PlayerManager extends JFrame {
         this.tableRelics.setPreferredScrollableViewportSize(null);
         scrollPane3.setViewportView(this.tableRelics);
       }
-      tabbedPane1.addTab(bundle.getString("RelicMgr"), scrollPane3);
+      tabbedPaneMgr.addTab(bundle.getString("RelicMgr"), scrollPane3);
 
       //======== scrollPane2 ========
       {
@@ -702,23 +748,25 @@ public class PlayerManager extends JFrame {
         this.tablePotions.setMinimumSize(null);
         this.tablePotions.setPreferredScrollableViewportSize(null);
         this.tablePotions.setModel(new DefaultTableModel(
-          new Object[][] {
-            {null, null, null},
-          },
-          new String[] {
-            "i", "ID", "Name"
-          }
+           new Object[][]{
+              {null, null, null},
+           },
+           new String[]{
+              "i", "ID", "Name"
+           }
         ) {
-          Class<?>[] columnTypes = new Class<?>[] {
-            Integer.class, String.class, String.class
+          Class<?>[] columnTypes = new Class<?>[]{
+             Integer.class, String.class, String.class
           };
-          boolean[] columnEditable = new boolean[] {
-            false, false, false
+          boolean[] columnEditable = new boolean[]{
+             false, false, false
           };
+
           @Override
           public Class<?> getColumnClass(int columnIndex) {
             return this.columnTypes[columnIndex];
           }
+
           @Override
           public boolean isCellEditable(int rowIndex, int columnIndex) {
             return this.columnEditable[columnIndex];
@@ -733,31 +781,33 @@ public class PlayerManager extends JFrame {
         }
         scrollPane2.setViewportView(this.tablePotions);
       }
-      tabbedPane1.addTab(bundle.getString("PotionMgr"), scrollPane2);
+      tabbedPaneMgr.addTab(bundle.getString("PotionMgr"), scrollPane2);
 
       //======== scrollPane4 ========
       {
 
         //---- tableHandCrads ----
         this.tableHandCrads.setModel(new DefaultTableModel(
-          new Object[][] {
-            {null, null, null, null},
-            {null, null, null, null},
-          },
-          new String[] {
-            "i", "ID", "Name", "Cost"
-          }
+           new Object[][]{
+              {null, null, null, null},
+              {null, null, null, null},
+           },
+           new String[]{
+              "i", "ID", "Name", "Cost"
+           }
         ) {
-          Class<?>[] columnTypes = new Class<?>[] {
-            Integer.class, String.class, String.class, Integer.class
+          Class<?>[] columnTypes = new Class<?>[]{
+             Integer.class, String.class, String.class, Integer.class
           };
-          boolean[] columnEditable = new boolean[] {
-            false, false, false, true
+          boolean[] columnEditable = new boolean[]{
+             false, true, true, true
           };
+
           @Override
           public Class<?> getColumnClass(int columnIndex) {
             return this.columnTypes[columnIndex];
           }
+
           @Override
           public boolean isCellEditable(int rowIndex, int columnIndex) {
             return this.columnEditable[columnIndex];
@@ -773,11 +823,12 @@ public class PlayerManager extends JFrame {
         this.tableHandCrads.setPreferredScrollableViewportSize(null);
         scrollPane4.setViewportView(this.tableHandCrads);
       }
-      tabbedPane1.addTab(bundle.getString("HandCardMgr"), scrollPane4);
+      tabbedPaneMgr.addTab(bundle.getString("HandCardMgr"), scrollPane4);
     }
-    contentPane.add(tabbedPane1, new GridBagConstraints(0, 1, 2, 1, 0.0, 0.0,
-      GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-      new Insets(5, 5, 5, 5), 0, 0));
+    contentPane.add(tabbedPaneMgr, new GridBagConstraints(0, 1, 2, 1, 0.0, 0.0,
+       GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+       new Insets(5, 5, 5, 5), 0, 0
+    ));
     pack();
     setLocationRelativeTo(null);
     // JFormDesigner - End of component initialization  //GEN-END:initComponents
