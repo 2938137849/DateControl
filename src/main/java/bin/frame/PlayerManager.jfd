@@ -143,6 +143,7 @@ new FormModel {
 					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
 					"borderPainted": true
 					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					"horizontalAlignment": 0
 					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "lockMpItemStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
@@ -179,6 +180,7 @@ new FormModel {
 					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
 					"borderPainted": true
 					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					"horizontalAlignment": 0
 					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "lockMaxMpItemStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
@@ -231,7 +233,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0, 0"
-				"$rowSpecs": "0, 0, 0, 0, 0, 0"
+				"$rowSpecs": "0, 0, 0, 30, 34"
 				"$hGap": 5
 				"$vGap": 5
 				"$alignLeft": true
@@ -248,6 +250,7 @@ new FormModel {
 					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
 					"borderPainted": true
 					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					"horizontalAlignment": 0
 					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "EXDamageItemStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"insets": new java.awt.Insets( 5, 5, 5, 5 )
@@ -268,6 +271,7 @@ new FormModel {
 					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
 					"borderPainted": true
 					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					"horizontalAlignment": 0
 					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "EXBlockItemStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridy": 1
@@ -290,9 +294,22 @@ new FormModel {
 					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
 					"borderPainted": true
 					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					"horizontalAlignment": 0
 					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "checkBoxUpgradeItemStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridy": 2
+					"insets": new java.awt.Insets( 5, 5, 5, 5 )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "checkBox1"
+					"text": new FormMessage( null, "UseEditerPlus" )
+					"borderPainted": true
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 14 )
+					"horizontalAlignment": 0
+					addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "checkBox1ItemStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 3
 					"insets": new java.awt.Insets( 5, 5, 5, 5 )
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
@@ -388,7 +405,6 @@ new FormModel {
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": new FormMessage( null, "CardMgr" )
-					"mnemonicIndex": new FormMessage( null, "ShowPlayer.scrollPane1.tab.mnemonicIndex" )
 				} )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "scrollPane3"
@@ -403,26 +419,21 @@ new FormModel {
 								add( null )
 								add( null )
 								add( null )
-								add( null )
 							} )
 						}, new java.util.Vector {
 							add( "i" )
 							add( "ID" )
 							add( "Name" )
-							add( "Description" )
 						}, new java.util.Vector {
 							add( class java.lang.Integer )
 							add( class java.lang.String )
 							add( class java.lang.String )
-							add( class java.lang.String )
 						}, new java.util.Vector {
 							add( false )
-							add( false )
-							add( false )
+							add( true )
 							add( false )
 						}, new java.util.Vector {
 							add( new com.jformdesigner.model.SwingTableColumn( null, 30, 30, 30, false ) )
-							add( null )
 							add( null )
 							add( null )
 						} )
@@ -522,7 +533,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 460, 610 )
+			"size": new java.awt.Dimension( 705, 650 )
 		} )
 	}
 }
