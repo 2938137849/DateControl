@@ -8,6 +8,7 @@ import basemod.interfaces.OnCardUseSubscriber;
 import basemod.interfaces.PostDrawSubscriber;
 import basemod.interfaces.PostPlayerUpdateSubscriber;
 import bin.interfaces.MaxHPChangeSubscriber;
+import bin.relics.PlayerDateControlRelic;
 import bin.utils.MyUtil;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
@@ -164,7 +165,7 @@ public class PlayerManager extends JFrame {
     initComponents();
     tableCards.getModel().addTableModelListener(e -> {
          if (e.getType() != TableModelEvent.UPDATE) return;
-         MyUtil.TableModelListener(
+         MyUtil.CardTableListener(
             e,
             AbstractDungeon.player.masterDeck.group
          );
@@ -173,26 +174,28 @@ public class PlayerManager extends JFrame {
     );
     tableHandCrads.getModel().addTableModelListener(e -> {
          if (e.getType() != TableModelEvent.UPDATE) return;
-         MyUtil.TableModelListener(
+         MyUtil.CardTableListener(
             e,
             AbstractDungeon.player.hand.group
          );
          flashTable(3);
        }
     );
-
+    tableRelics.getModel().addTableModelListener(e -> {
+      if (e.getType() != TableModelEvent.UPDATE) return;
+      MyUtil.RelicTableListener(
+         e,
+         AbstractDungeon.player.relics
+      );
+      flashTable(1);
+    });
     /*tablePotions.getModel().addTableModelListener(e -> {
       if (e.getType() == TableModelEvent.UPDATE) {
         System.out.println("e.getColumn() = " + e.getColumn());
         System.out.println("e.getFirstRow() = " + e.getFirstRow());
       }
     });
-    tableRelics.getModel().addTableModelListener(e -> {
-      if (e.getType() == TableModelEvent.UPDATE) {
-        System.out.println("e.getColumn() = " + e.getColumn());
-        System.out.println("e.getFirstRow() = " + e.getFirstRow());
-      }
-    });*/
+    */
     pack();
   }
 
@@ -355,6 +358,14 @@ public class PlayerManager extends JFrame {
     flashTable(currentTable);
   }
 
+  private void checkBox1ItemStateChanged(ItemEvent e) {
+    if (e.getStateChange() == ItemEvent.SELECTED) {
+      MyUtil.addRelic(PlayerDateControlRelic.ID, false);
+    } else {
+      MyUtil.removeRelic(PlayerDateControlRelic.ID);
+    }
+  }
+
   private void initComponents() {
     // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
     ResourceBundle bundle = ResourceBundle.getBundle("language");
@@ -380,6 +391,7 @@ public class PlayerManager extends JFrame {
     this.EXBlock = new JCheckBox();
     this.spinnerBlock = new JSpinner();
     this.checkBoxUpgrade = new JCheckBox();
+    this.checkBox1 = new JCheckBox();
     JTabbedPane tabbedPaneMgr = new JTabbedPane();
     JScrollPane scrollPane1 = new JScrollPane();
     this.tableCards = new JTable();
@@ -495,6 +507,7 @@ public class PlayerManager extends JFrame {
       this.lockMp.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
       this.lockMp.setBorderPainted(true);
       this.lockMp.setMargin(new Insets(5, 5, 5, 5));
+      this.lockMp.setHorizontalAlignment(SwingConstants.CENTER);
       this.lockMp.addItemListener(e -> lockMpItemStateChanged(e));
       panel1.add(this.lockMp, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -524,6 +537,7 @@ public class PlayerManager extends JFrame {
       this.lockMaxMp.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
       this.lockMaxMp.setBorderPainted(true);
       this.lockMaxMp.setMargin(new Insets(5, 5, 5, 5));
+      this.lockMaxMp.setHorizontalAlignment(SwingConstants.CENTER);
       this.lockMaxMp.addItemListener(e -> lockMaxMpItemStateChanged(e));
       panel1.add(this.lockMaxMp, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -569,15 +583,16 @@ public class PlayerManager extends JFrame {
       panel3.setBorder(new TitledBorder(bundle.getString("EXEvent")));
       panel3.setLayout(new GridBagLayout());
       ((GridBagLayout)panel3.getLayout()).columnWidths = new int[]{0, 0, 0};
-      ((GridBagLayout)panel3.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+      ((GridBagLayout)panel3.getLayout()).rowHeights = new int[]{0, 0, 0, 35, 34, 0};
       ((GridBagLayout)panel3.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-      ((GridBagLayout)panel3.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+      ((GridBagLayout)panel3.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
       //---- EXDamage ----
       this.EXDamage.setText(bundle.getString("EXDamage"));
       this.EXDamage.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
       this.EXDamage.setBorderPainted(true);
       this.EXDamage.setMargin(new Insets(5, 5, 5, 5));
+      this.EXDamage.setHorizontalAlignment(SwingConstants.CENTER);
       this.EXDamage.addItemListener(e -> EXDamageItemStateChanged(e));
       panel3.add(this.EXDamage, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -599,6 +614,7 @@ public class PlayerManager extends JFrame {
       this.EXBlock.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
       this.EXBlock.setBorderPainted(true);
       this.EXBlock.setMargin(new Insets(5, 5, 5, 5));
+      this.EXBlock.setHorizontalAlignment(SwingConstants.CENTER);
       this.EXBlock.addItemListener(e -> EXBlockItemStateChanged(e));
       panel3.add(this.EXBlock, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -620,8 +636,21 @@ public class PlayerManager extends JFrame {
       this.checkBoxUpgrade.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
       this.checkBoxUpgrade.setBorderPainted(true);
       this.checkBoxUpgrade.setMargin(new Insets(5, 5, 5, 5));
+      this.checkBoxUpgrade.setHorizontalAlignment(SwingConstants.CENTER);
       this.checkBoxUpgrade.addItemListener(e -> checkBoxUpgradeItemStateChanged(e));
       panel3.add(this.checkBoxUpgrade, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+         new Insets(5, 5, 10, 10), 0, 0
+      ));
+
+      //---- checkBox1 ----
+      this.checkBox1.setText(bundle.getString("UseEditerPlus"));
+      this.checkBox1.setBorderPainted(true);
+      this.checkBox1.setMargin(new Insets(5, 5, 5, 5));
+      this.checkBox1.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
+      this.checkBox1.setHorizontalAlignment(SwingConstants.CENTER);
+      this.checkBox1.addItemListener(e -> checkBox1ItemStateChanged(e));
+      panel3.add(this.checkBox1, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
          GridBagConstraints.CENTER, GridBagConstraints.BOTH,
          new Insets(5, 5, 10, 10), 0, 0
       ));
@@ -694,8 +723,6 @@ public class PlayerManager extends JFrame {
         scrollPane1.setViewportView(this.tableCards);
       }
       tabbedPaneMgr.addTab(bundle.getString("CardMgr"), scrollPane1);
-      tabbedPaneMgr.setDisplayedMnemonicIndexAt(
-         0, Integer.parseInt(bundle.getString("ShowPlayer.scrollPane1.tab.mnemonicIndex")));
 
       //======== scrollPane3 ========
       {
@@ -704,17 +731,17 @@ public class PlayerManager extends JFrame {
         //---- tableRelics ----
         this.tableRelics.setModel(new DefaultTableModel(
            new Object[][]{
-              {null, null, null, null},
+              {null, null, null},
            },
            new String[]{
-              "i", "ID", "Name", "Description"
+              "i", "ID", "Name"
            }
         ) {
           Class<?>[] columnTypes = new Class<?>[]{
-             Integer.class, String.class, String.class, String.class
+             Integer.class, String.class, String.class
           };
           boolean[] columnEditable = new boolean[]{
-             false, false, false, false
+             false, true, false
           };
 
           @Override
@@ -850,6 +877,7 @@ public class PlayerManager extends JFrame {
   private JCheckBox EXBlock;
   private JSpinner spinnerBlock;
   private JCheckBox checkBoxUpgrade;
+  private JCheckBox checkBox1;
   private JTable tableCards;
   private JTable tableRelics;
   private JTable tablePotions;

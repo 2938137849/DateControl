@@ -5,7 +5,7 @@
     "bin"
   ],
   "description": "Easy 2 Control the Data in Game, It will Show When You Start Play Game",
-  "version": "0.6",
+  "version": "0.9",
   "sts_version": "07-01-2019",
   "mts_version": "3.11.0",
   "dependencies": [
