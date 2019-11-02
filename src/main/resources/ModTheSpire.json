@@ -1,14 +1,16 @@
 {
-  "modid": "GameEdit",
-  "name": "Game Data Edit Mod",
+  "modid": "GameDataControl",
+  "name": "Data Control",
   "author_list": [
     "bin"
   ],
   "description": "Easy 2 Control the Data in Game, It will Show When You Start Play Game",
-  "version": "0.9",
-  "sts_version": "07-01-2019",
-  "mts_version": "3.11.0",
+  "credits": "edit by myself",
   "dependencies": [
     "basemod"
-  ]
+  ],
+  "version": "0.9.1",
+  "sts_version": "03-29-2018",
+  "mts_version": "2.6.0",
+  "update_json": "https://https://api.github.com/repos/2938137849/DateControl/releases/latest"
 }
